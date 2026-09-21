@@ -1,0 +1,131 @@
+/* ==================================================================
+   Architectural drawings — masterplan hotspots, floor plates, unit plans
+   ================================================================== */
+
+/* ---- masterplan / block facade selector ---------------------------- */
+.mp{position:relative;isolation:isolate;background:var(--deep)}
+.mp__stage{position:relative;width:100%;overflow:hidden}
+.mp__img{width:100%;display:block;transition:filter .8s var(--e-out),transform 1.2s var(--e-out)}
+.mp[data-active] .mp__img{filter:saturate(.72) brightness(.6)}
+.mp__svg{position:absolute;inset:0;width:100%;height:100%}
+.mp__zone{cursor:pointer;outline:none}
+.mp__shape{fill:rgba(242,241,238,0);stroke:rgba(242,241,238,0);stroke-width:1.2;
+  transition:fill .5s var(--e-out),stroke .5s var(--e-out)}
+.mp__zone:hover .mp__shape,.mp__zone:focus-visible .mp__shape,.mp__zone.is-active .mp__shape{
+  fill:rgba(242,241,238,.13);stroke:rgba(242,241,238,.9)}
+.mp[data-active] .mp__zone:not(.is-active) .mp__shape{fill:rgba(12,13,14,.34);stroke:transparent}
+.mp__zone.is-active .mp__shape{fill:rgba(242,241,238,.06);stroke:#fff;stroke-width:1.6}
+.mp__code{fill:#fff;font-family:var(--font-display);font-size:22px;letter-spacing:.06em;text-anchor:middle;
+  opacity:0;transition:opacity .45s;pointer-events:none;paint-order:stroke;stroke:rgba(12,13,14,.45);stroke-width:3px}
+.mp__zone:hover .mp__code,.mp__zone.is-active .mp__code,.mp[data-touch] .mp__code{opacity:.95}
+.mp__tick{stroke:#fff;stroke-width:.8;opacity:0;transition:opacity .45s}
+.mp__zone:hover .mp__tick,.mp__zone.is-active .mp__tick{opacity:.6}
+
+.mp__panel{position:absolute;left:var(--gut);bottom:var(--gut);right:var(--gut);pointer-events:none;
+  display:flex;justify-content:flex-start}
+.mp__card{pointer-events:auto;background:rgba(12,13,14,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line-deep-2);color:var(--on-deep);padding:1.3rem 1.5rem;min-width:min(19rem,86vw);
+  opacity:0;transform:translateY(14px);transition:opacity .45s var(--e-out),transform .45s var(--e-out)}
+.mp__card.is-in{opacity:1;transform:none}
+.mp__card h3{font-family:var(--font-display);font-size:1.7rem;text-transform:uppercase;letter-spacing:var(--tr-tight);line-height:1;margin-bottom:.9rem}
+.mp__stats{display:flex;gap:1.6rem;margin-bottom:1.15rem}
+.mp__stats div{display:flex;flex-direction:column;gap:.15rem}
+.mp__stats b{font-family:var(--font-display);font-size:1.45rem;font-weight:400;line-height:1;font-variant-numeric:tabular-nums}
+.mp__stats span{font-size:var(--t-xs);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--on-deep-3)}
+.mp__hint{position:absolute;right:var(--gut);top:var(--gut);font-size:var(--t-xs);letter-spacing:var(--tr-label);text-transform:uppercase;color:rgba(242,241,238,.72);pointer-events:none;transition:opacity .4s}
+.mp[data-active] .mp__hint{opacity:0}
+@media (max-width:720px){
+  .mp__panel{left:0;right:0;bottom:0}
+  .mp__card{width:100%;min-width:0;border-left:0;border-right:0;border-bottom:0}
+  .mp__hint{top:auto;bottom:calc(100% + .6rem)}
+}
+
+/* ---- block facade floor selector ------------------------------------ */
+.fsel{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(1.5rem,4vw,3.5rem);align-items:stretch}
+@media (max-width:900px){.fsel{grid-template-columns:1fr}}
+.fsel__stage{position:relative;overflow:hidden;background:var(--deep-2);min-height:min(62vh,520px)}
+.fsel__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fsel__svg{position:absolute;inset:0;width:100%;height:100%}
+.fsel__band{fill:rgba(242,241,238,0);stroke:rgba(242,241,238,0);stroke-width:.6;cursor:pointer;transition:fill .38s var(--e-out),stroke .38s}
+.fsel__band:hover,.fsel__band:focus-visible{fill:rgba(242,241,238,.14);stroke:rgba(242,241,238,.7)}
+.fsel__band.is-active{fill:rgba(242,241,238,.2);stroke:#fff;stroke-width:1}
+.fsel__list{display:flex;flex-direction:column;justify-content:center;border-top:1px solid var(--line-deep)}
+.fsel__row{display:grid;grid-template-columns:3.2rem 1fr auto;gap:1rem;align-items:center;padding:.72rem .2rem;border-bottom:1px solid var(--line-deep);
+  text-align:left;transition:background .3s,padding-left .35s var(--e-out);width:100%}
+.fsel__row:hover,.fsel__row:focus-visible{background:rgba(242,241,238,.05);padding-left:.7rem}
+.fsel__row.is-active{background:rgba(242,241,238,.09);padding-left:.7rem}
+.fsel__no{font-family:var(--font-display);font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums;opacity:.92}
+.fsel__meta{font-size:var(--t-xs);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--on-deep-3)}
+.fsel__go{font-size:var(--t-xs);letter-spacing:var(--tr-label);text-transform:uppercase;opacity:0;transform:translateX(-6px);transition:.35s var(--e-out)}
+.fsel__row:hover .fsel__go,.fsel__row.is-active .fsel__go{opacity:1;transform:none}
+@media (max-width:900px){.fsel__stage{min-height:44vh}.fsel__list{max-height:none}}
+
+/* ---- generated plans ------------------------------------------------- */
+.plan{width:100%;height:auto;overflow:visible}
+.pl-slab{fill:var(--surface);stroke:none}
+.pl-wall-out{fill:none;stroke:var(--fg);stroke-width:2.6}
+.pl-wall-in{fill:none;stroke:var(--fg);stroke-width:.9;stroke-opacity:.55}
+.pl-room-fill{fill:var(--surface)}
+.pl-win-cut{stroke:var(--surface);stroke-width:3.2;stroke-linecap:butt}
+.pl-win{stroke:var(--fg);stroke-width:.7;stroke-linecap:butt}
+.pl-gap{stroke:var(--surface);stroke-width:2.4}
+.pl-door{fill:none;stroke:var(--fg);stroke-width:.7;stroke-opacity:.42}
+.pl-balcony{fill:rgba(20,22,26,.035);stroke:var(--fg);stroke-width:.9;stroke-opacity:.5}
+.pl-corridor{fill:rgba(20,22,26,.055)}
+.pl-core-box{fill:rgba(20,22,26,.09);stroke:var(--fg);stroke-width:.9;stroke-opacity:.5}
+.pl-lift,.pl-stair{fill:none;stroke:var(--fg);stroke-width:.8;stroke-opacity:.55}
+.pl-tread{stroke:var(--fg);stroke-width:.55;stroke-opacity:.35}
+.pl-core-lbl{fill:var(--fg-3);font-size:7px;letter-spacing:.14em;text-anchor:middle;font-family:var(--font-body)}
+.pl-lbl{fill:var(--fg);font-size:8.2px;letter-spacing:.1em;text-anchor:middle;font-family:var(--font-body)}
+.pl-area{fill:var(--fg-3);font-size:7.4px;letter-spacing:.06em;text-anchor:middle;font-family:var(--font-body);font-variant-numeric:tabular-nums}
+.pl-lbl-out{fill:var(--fg-3);font-size:7.4px}
+.pl-compass{stroke:var(--fg-3);fill:var(--fg-3);stroke-width:.9}
+.pl-compass text{font-size:8px;text-anchor:middle;stroke:none;letter-spacing:.12em}
+
+/* interactive units on the floor plate */
+.pl-unit{cursor:pointer;outline:none}
+.pl-unit-fill{fill:var(--st-available-fill);transition:fill .38s var(--e-out)}
+.pl-unit-wall{fill:none;stroke:var(--fg);stroke-width:1.9;transition:stroke .3s}
+.pl-unit-hit{fill:transparent}
+.pl-unit-rooms{opacity:.85;transition:opacity .35s}
+.pl-unit-id{font-family:var(--font-display);font-size:13px;text-anchor:middle;fill:var(--fg);letter-spacing:.04em}
+.pl-unit-area{font-size:8px;text-anchor:middle;fill:var(--fg-3);font-variant-numeric:tabular-nums;letter-spacing:.05em}
+.pl-unit-tag{pointer-events:none}
+.pl-unit[data-status="reserved"] .pl-unit-fill{fill:var(--st-reserved-fill)}
+.pl-unit[data-status="reserved"] .pl-unit-id{fill:var(--st-reserved)}
+.pl-unit[data-status="sold"] .pl-unit-fill{fill:var(--st-sold-fill)}
+.pl-unit[data-status="sold"] .pl-unit-id,.pl-unit[data-status="sold"] .pl-unit-area{fill:var(--st-sold)}
+.pl-unit[data-status="sold"] .pl-unit-wall{stroke:#B7BBBE}
+.pl-unit[data-status="sold"] .pl-unit-rooms{opacity:.45}
+.pl-unit[data-status="reserved"] .pl-unit-wall{stroke:var(--st-reserved)}
+.pl-unit:hover .pl-unit-fill,.pl-unit:focus-visible .pl-unit-fill,.pl-unit.is-active .pl-unit-fill{fill:var(--accent-soft)}
+.pl-unit.is-active .pl-unit-wall{stroke:var(--accent);stroke-width:2.6}
+.pl-unit:hover .pl-unit-wall{stroke:var(--accent)}
+.plan--floor.has-active .pl-unit:not(.is-active){opacity:.5}
+.plan--floor .pl-unit{transition:opacity .35s}
+
+/* ---- plan viewport (pan / zoom on touch) ------------------------------ */
+.pv{position:relative;background:var(--surface);border:1px solid var(--line);overflow:hidden;touch-action:none}
+.pv__inner{transform-origin:0 0;will-change:transform}
+.pv__tools{position:absolute;right:.65rem;bottom:.65rem;display:flex;gap:.4rem;z-index:2}
+.pv__tools button{width:2.35rem;height:2.35rem;display:grid;place-items:center;background:rgba(255,255,255,.92);border:1px solid var(--line);font-size:.95rem;line-height:1;transition:background .25s}
+.pv__tools button:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.pv__hint{position:absolute;left:.8rem;top:.8rem;font-size:var(--t-xs);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--fg-3);pointer-events:none}
+
+.pl-front line{stroke:var(--fg-3);stroke-width:.7;stroke-dasharray:4 3}
+.mp__bright{opacity:0;transition:opacity .55s var(--e-out);pointer-events:none}
+.mp[data-active="a"] .mp__bright[data-block="a"],
+.mp[data-active="b"] .mp__bright[data-block="b"],
+.mp[data-active="c"] .mp__bright[data-block="c"],
+.mp[data-active="d"] .mp__bright[data-block="d"],
+.mp[data-active="e"] .mp__bright[data-block="e"]{opacity:1}
+.mp__idle{margin:0;padding:.2rem 0}
+@media (max-width:720px){
+  .mp__stage{display:flex;flex-direction:column;overflow:visible}
+  .mp__panel{position:static;padding:0;order:3}
+  .mp__card{width:100%;opacity:1;transform:none;border:0;border-top:1px solid var(--line-deep);
+    background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;min-height:8.5rem;
+    padding:1.3rem var(--gut) 1.5rem}
+  .mp__hint{position:absolute;top:var(--gut);left:var(--gut);right:auto;bottom:auto}
+  .cm__stage .mp__panel{order:3}
+}

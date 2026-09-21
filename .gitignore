@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build output (regenerate with `npm run build`)
+dist/
+build/
+coverage/
+.cache/
+
+# secrets / deploy links
+.env
+.env.*
+.vercel/
+
+# logs & OS/editor noise
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# local agent/tooling state
+.claude/
+.playwright-mcp/
+.remember/
